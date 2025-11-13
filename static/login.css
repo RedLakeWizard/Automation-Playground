@@ -1,0 +1,108 @@
+/* Overall background */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #8fa6ff, #4158d0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Centered login card */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-box {
+  background: #ffffffcc; /* slight transparency */
+  padding: 2em 2.5em;
+  border-radius: 12px;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+  width: 320px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+
+/* Titles & Text */
+.login-title {
+  margin: 0 0 0.2em 0;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #2a2a2a;
+}
+
+.login-subtitle {
+  margin: 0 0 1.5em 0;
+  color: #555;
+  font-size: 0.95em;
+}
+
+/* Input fields */
+label {
+  display: block;
+  text-align: left;
+  margin-top: 1em;
+  margin-bottom: 0.3em;
+  font-size: 0.9em;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 0.6em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: #4158d0;
+  outline: none;
+}
+
+/* Button Styling */
+button {
+  margin-top: 1.3em;
+  width: 100%;
+  padding: 0.75em;
+  background: #4158d0;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #3341a8;
+}
+
+/* Error message */
+.error {
+  color: #c62828;
+  background: #ffcdd2;
+  padding: 0.5em;
+  border-radius: 6px;
+  margin-bottom: 1em;
+}
+
+/* Credential instructions box */
+.info-box {
+  margin-top: 1.5em;
+  font-size: 0.85em;
+  text-align: left;
+  background: #f3f3f3;
+  border: 1px solid #d1d1d1;
+  padding: 0.8em;
+  border-radius: 6px;
+}
+
+.info-box ul {
+  padding-left: 1.2em;
+  margin: 0.4em 0 0 0;
+}

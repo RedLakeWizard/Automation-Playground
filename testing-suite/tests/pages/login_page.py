@@ -16,7 +16,10 @@ class LoginPage:
 
     def login(self, username: str, password: str):
         self.username_input.fill(username)
+        #timeouts for visual demonstration purposes
+        # self.page.wait_for_timeout(3000)
         self.password_input.fill(password)
+        # self.page.wait_for_timeout(3000)
         self.login_button.click()
 
     def assert_on_page(self):

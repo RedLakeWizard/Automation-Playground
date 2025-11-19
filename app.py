@@ -8,6 +8,10 @@ USERS = {
     "admin": "adminpass"
 }
 
+@app.route("/")
+def index_redirects_to_login():
+    return redirect(url_for("login"))
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # to dashboard if already logged in

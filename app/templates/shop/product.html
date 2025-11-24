@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% import "macros/product.html" as product_macros %}
+
+{% block title %}{{ product.name }} – Potion Detail{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('shop.index') }}">Shop</a></li>
+      {% if product.category %}
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('shop.index', category=product.category.slug) }}">{{ product.category.name }}</a>
+        </li>
+      {% endif %}
+      <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+  </nav>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div id="product-gallery" class="carousel slide">
+        <div class="carousel-inner rounded shadow-sm">
+          {% set image_list = product.images if product.images else [product.image_url] %}
+          {% if image_list %}
+            {% for image in image_list %}
+              <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <div class="ratio ratio-4x3 bg-light">
+                  {% if image %}
+                    <img src="{{ image }}" class="d-block w-100 img-cover rounded" alt="{{ product.name }}">
+                  {% else %}
+                    <div class="d-flex align-items-center justify-content-center h-100 text-muted">No image</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="carousel-item active">
+              <div class="ratio ratio-4x3 bg-light d-flex align-items-center justify-content-center text-muted">
+                No image
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        {% if image_list and image_list|length > 1 %}
+          <button class="carousel-control-prev" type="button" data-bs-target="#product-gallery" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#product-gallery" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h1>{{ product.name }}</h1>
+      <div class="d-flex align-items-baseline gap-2">
+        <span class="lead fw-bold">{{ product.price | format_currency }}</span>
+        {% if product.compare_price_cents and product.compare_price_cents > product.price_cents %}
+          <span class="text-muted text-decoration-line-through">{{ product.compare_price | format_currency }}</span>
+        {% endif %}
+      </div>
+      <p class="text-muted mb-1">SKU: {{ product.sku }}</p>
+      <p class="{{ 'text-success' if product.in_stock else 'text-danger' }}">
+        {{ "In stock" if product.in_stock else "Out of stock" }}
+      </p>
+
+      {% if product.description %}
+        <p>{{ product.description }}</p>
+      {% else %}
+        <p class="text-muted">No description available for this potion.</p>
+      {% endif %}
+
+      <form action="{{ url_for('cart.add_item', product_id=product.id) }}" method="post" class="d-flex align-items-center gap-3 mt-3">
+        {{ add_to_cart_form.hidden_tag() }}
+        <div class="d-flex align-items-center gap-2">
+          <label for="quantity" class="form-label mb-0">Qty</label>
+          {{ add_to_cart_form.quantity(class_="form-control", value=1, min=1, max=product.quantity or 99, style="width:100px") }}
+        </div>
+        <button type="submit" class="btn btn-success" {% if not product.in_stock %}disabled{% endif %}>
+          {% if product.in_stock %}Add to cart{% else %}Out of stock{% endif %}
+        </button>
+        <a class="btn btn-outline-secondary" href="{{ url_for('shop.index') }}">Back to shop</a>
+      </form>
+    </div>
+  </div>
+
+  {% if related_products %}
+    <div class="mt-5">
+      <h3 class="mb-3">Related potions</h3>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+        {% for related in related_products %}
+          <div class="col">
+            {{ product_macros.product_card(related, add_to_cart_form) }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

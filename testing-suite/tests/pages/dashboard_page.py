@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, expect
 
 class DashboardPage:
-    URL = "http://localhost:5000/dashboard"
+    URL = "http://localhost:5000/account/dashboard"
 
     def __init__(self, page: Page):
         self.page = page

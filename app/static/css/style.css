@@ -1,0 +1,31 @@
+/* Global */
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.logo-mark {
+  font-size: 1.4rem;
+}
+
+.img-cover {
+  object-fit: cover;
+}
+
+/* Product grid */
+.product-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Forms */
+form .form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Footer */
+footer .social-links a:hover {
+  opacity: 0.8;
+}

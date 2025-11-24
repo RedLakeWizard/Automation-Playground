@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+  <h1 class="mb-3">My Orders</h1>
+
+  {% if orders %}
+    <div class="list-group">
+      {% for order in orders %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-bold">Order #{{ order.order_number }}</div>
+            <div class="text-muted">{{ order.status }} · {{ order.created_at|format_date }}</div>
+          </div>
+          <div class="fw-bold">{{ order.total | format_currency }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No orders yet. <a href="{{ url_for('shop.index') }}">Start shopping</a>.</p>
+  {% endif %}
+{% endblock %}

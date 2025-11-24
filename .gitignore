@@ -1,3 +1,5 @@
+# data
+*.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -194,6 +196,9 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Work-in-progress
+app/blueprints/checkout_wip/
+_wip_*
 # Cursor
 #  Cursor is an AI-powered code editor. `.cursorignore` specifies files/directories to
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
@@ -208,3 +213,10 @@ __marimo__/
 
 # Ugly documentation
 .userstories
+.highlevelstructure
+.uglydocumentation/
+
+# Archived checkout implementation
+app/blueprints/checkout_wip/
+app/templates/checkout/index.html
+app/templates/checkout/confirmation.html

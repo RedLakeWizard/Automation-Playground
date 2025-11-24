@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "macros/product.html" as product_macros %}
+
+{% block title %}Potions Catalogue{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="mb-0">Potions Catalogue</h1>
+      {% if search_form.query %}
+        <p class="text-muted small mb-0">Showing results for "<strong>{{ search_form.query }}</strong>"</p>
+      {% endif %}
+    </div>
+    <a class="btn btn-outline-primary" href="{{ url_for('cart.view_cart') }}">
+      View Cart ({{ cart_count or 0 }})
+    </a>
+  </div>
+
+  <div class="row">
+    <aside class="col-lg-3 mb-4">
+      <div class="card">
+        <div class="card-header">Filters</div>
+        <div class="card-body">
+          <form method="get" action="{{ url_for('shop.index') }}" class="d-grid gap-3">
+            <div>
+              <label class="form-label">Search</label>
+              <input class="form-control" type="search" name="q" value="{{ search_form.query }}" placeholder="Search potions...">
+            </div>
+
+            <div>
+              <label class="form-label">Category</label>
+              <select class="form-select" name="category">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                  <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                    {{ category.name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Sort by</label>
+              <select class="form-select" name="sort">
+                <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+                <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                <option value="name" {% if sort == 'name' %}selected{% endif %}>Name</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Apply</button>
+          </form>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-lg-9">
+      {% if products %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+          {% for product in products %}
+            <div class="col">
+              {{ product_macros.product_card(product, add_to_cart_form) }}
+            </div>
+          {% endfor %}
+        </div>
+        {{ product_macros.pagination(pagination, 'shop.index') }}
+      {% else %}
+        <div class="alert alert-info">No products found.</div>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

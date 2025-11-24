@@ -57,7 +57,7 @@ def test_dashboard_not_accessible_without_login(page: Page):
     page.goto(DashboardPage.URL)
 
     #Should redirect back to login
-    expect(page).to_have_url("http://localhost:5000/login")
+    expect(page).to_have_url(LoginPage.URL)
 
 
 def test_logout_returns_to_login_and_blocks_dashboard(page: Page):

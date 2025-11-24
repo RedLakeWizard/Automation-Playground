@@ -1,0 +1,58 @@
+{% macro product_card(product, form) -%}
+  <div class="card h-100 product-card">
+    <div class="ratio ratio-4x3 bg-light rounded-top">
+      {% if product.image_url %}
+        <img src="{{ product.image_url }}" class="card-img-top img-cover" alt="{{ product.name }}">
+      {% else %}
+        <div class="d-flex align-items-center justify-content-center h-100 text-muted">No image</div>
+      {% endif %}
+    </div>
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title">
+        <a href="{{ url_for('shop.product', slug_or_id=product.slug or product.id) }}">{{ product.name }}</a>
+      </h5>
+      <p class="card-text text-muted small flex-grow-1">{{ product.description or 'An enigmatic concoction.' }}</p>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <span class="fw-bold">{{ product.price | format_currency }}</span>
+        {% if product.discount_cents %}
+          <span class="badge bg-success">-{{ product.discount_amount | format_currency }}</span>
+        {% endif %}
+      </div>
+      {% if product.in_stock %}
+        <form action="{{ url_for('cart.add_item', product_id=product.id) }}" method="post" class="mt-3">
+          {{ form.hidden_tag() }}
+          {{ form.quantity(class_="d-none", value=1, min=1) }}
+          <button type="submit" class="btn btn-primary w-100">Add to cart</button>
+        </form>
+      {% else %}
+        <div class="alert alert-warning mt-3 mb-0 py-2 text-center">Out of stock</div>
+      {% endif %}
+    </div>
+  </div>
+{%- endmacro %}
+
+{% macro pagination(pagination_obj, endpoint) -%}
+  {% if pagination_obj.pages > 1 %}
+    <nav aria-label="Pagination" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item {{ 'disabled' if not pagination_obj.has_prev }}">
+          <a class="page-link" href="{{ url_for(endpoint, page=pagination_obj.prev_num, q=request.args.get('q')) if pagination_obj.has_prev else '#' }}">Previous</a>
+        </li>
+
+        {% for p in pagination_obj.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+          {% if p %}
+            <li class="page-item {{ 'active' if p == pagination_obj.page }}">
+              <a class="page-link" href="{{ url_for(endpoint, page=p, q=request.args.get('q')) }}">{{ p }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+          {% endif %}
+        {% endfor %}
+
+        <li class="page-item {{ 'disabled' if not pagination_obj.has_next }}">
+          <a class="page-link" href="{{ url_for(endpoint, page=pagination_obj.next_num, q=request.args.get('q')) if pagination_obj.has_next else '#' }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  {% endif %}
+{%- endmacro %}

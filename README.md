@@ -5,9 +5,8 @@
 
 ## 📽️ Demo GIF
 
-```
-![DEMO GIF](https://github.com/user-attachments/assets/1b12617a-a077-4d09-bb59-5346e8533fee)
-```
+
+![Image](https://github.com/user-attachments/assets/1b12617a-a077-4d09-bb59-5346e8533fee)
 
 ---
 
